@@ -1,7 +1,9 @@
 import requests
 import pandas as pd
+import sqlite3 as sq
 
 from bs4 import BeautifulSoup
+from sqlalchemy import create_engine
 
 #Used to create game statistics later
 def normalize(series1, series2):
@@ -12,7 +14,7 @@ class year_df:
     def __init__(self, year):
         self.year = year
 
-    def url(self):
+    def make_data(self):
         #Import soup from basketball reference url
         url_foo = "https://www.basketball-reference.com/leagues/NBA_yr_totals.html"
         sauce = requests.get(url_foo.replace("yr", str(self.year))).text
@@ -33,6 +35,28 @@ class year_df:
         data.loc[:,"G":] = data.loc[:,"G":].apply(pd.to_numeric)
         data["Age"]=pd.to_numeric(data["Age"])
 
-        print(data)
+        #Create Year Column in DataFrame
+        data["Year"] = self.year
 
-year_df(2018).url()
+        return data
+
+#===============================================================================
+##Make Empty DataFrame
+#data = pd.DataFrame()
+
+##Loop through the league since the Three Point Line
+#for x in range (1979, 2019):
+#    data = data.append(year_df(x).make_data())
+
+##Create Database
+#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba_package\nba.db")
+#data.to_sql("Player Totals", con = engine, if_exists= "replace", chunksize = 10)
+
+#===============================================================================
+##Check database/query
+connection = sq.connect("nba.db")
+c = connection.cursor()
+c.execute("SELECT * FROM 'Player Totals'")
+
+print(c.fetchmany(5))
+connection.close()
