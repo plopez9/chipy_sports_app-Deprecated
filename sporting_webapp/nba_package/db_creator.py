@@ -6,11 +6,17 @@ from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 
 #Used to create game statistics later
-def normalize(series1, series2):
-    return (series1/series2)
+
+#def construct_id(series):
+#    counter = 0
+#    tuple_list = []
+#    for item in series[0]:
+#        tuple_list = tuple_list+[item[counter], counter]
+#        counter = counter + 1
+#        return tuple_list
 
 #scrapes tables from basketball reference
-class year_df:
+class SummaryScrape:
     def __init__(self, year):
         self.year = year
 
@@ -38,14 +44,81 @@ class year_df:
         #Create Year Column in DataFrame
         data["Year"] = self.year
 
-        return data
+        #Clean columns
+        data = data.drop(["Pos", "Age", ], axis=1)
+
+        #Create Player IDs
+        print(data.head(5))
+
+class TeamScrape:
+    def __init__(self, year):
+        self.year = year
+        self.teams = ['OKC', 'PHO', 'ATL', 'MIA', 'CLE',
+        'DEN', 'SAS', 'CHI', 'UTA', 'BRK', 'NYK', 'POR',
+        'MEM', 'IND', 'MIL', 'HOU', 'TOR', 'WAS', 'ORL',
+        'CHO', 'SAC', 'LAL', 'DAL', 'MIN', 'BOS', 'GSW',
+        'LAC', 'PHI', 'DET', 'NOP',]
+        self.url = "https://www.basketball-reference.com/teams/TM/yr.html"
+
+    def get_players(self):
+
+        #create empty dataframe
+        p_table=pd.DataFrame()
+
+        #Scrape Data
+        for item in self.teams:
+            #edit url
+            url_foo = self.url.replace("yr", str(self.year))
+            url_foo = url_foo.replace("TM", item)
+
+            #create the sauce
+            sauce = requests.get(url_foo).text
+            soup = BeautifulSoup(sauce,"lxml")
+
+            #find column names
+            roster_header = [[t.text for t in p.find_all("th")]
+            for p in soup.find_all("tr")][0][1:]
+
+            #extract databa
+            roster_data = [[t.text for t in p.find_all("td")]
+            for p in soup.find_all("tr")][1:]
+
+            #create dataframe
+            data = pd.DataFrame(roster_data, columns=roster_header)
+
+            #add url
+            player_url =[p.find("a") for p in soup.find_all("tr")][1:]
+            player_url =[url.get("href") for url in player_url]
+            data["URL"] = player_url
+
+            #add team and year
+            data["Year"] = self.year
+
+            #append to DataFrame
+            p_table = p_table.append(data)
+
+            #Reset URL
+            url_foo =self.url
+
+    def get_offense(self):
+        print("test")
+
+    def get_defense(self):
+        print(" worked")
+#Test Code
+TeamScrape(2019).get_offense()
+TeamScrape(2019).get_defense()
+
+
+
+
 
 #===============================================================================
 ##Make Empty DataFrame
 #data = pd.DataFrame()
 
-##Loop through the league since the Three Point Line
-#for x in range (1979, 2019):
+##Loop through the league since the Current League Construction
+#for x in range (2010, 2019):
 #    data = data.append(year_df(x).make_data())
 
 ##Create Database
@@ -54,9 +127,9 @@ class year_df:
 
 #===============================================================================
 ##Check database/query
-connection = sq.connect("nba.db")
-c = connection.cursor()
-c.execute("SELECT * FROM 'Player Totals'")
+#connection = sq.connect("nba.db")
+#c = connection.cursor()
+#c.execute("SELECT * FROM 'Player Totals' WHERE Player == 'LeBron James'")
 
-print(c.fetchmany(5))
-connection.close()
+#print(c.fetchall())
+#connection.close()
