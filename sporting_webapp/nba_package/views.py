@@ -11,7 +11,7 @@ from django.core.serializers import serialize
 def index(request):
     return render(request, "nba_package/first_screen.html")
 
-def summary_request(request, name):
-    query = st.query(player = name)
-
-    return serialize("json", query.all)
+def summary_request(request):
+    query = st.query(player = "Jimmy Butler").all
+    response = serialize("json", query)
+    return HttpResponse(response, content_type="application/json")
