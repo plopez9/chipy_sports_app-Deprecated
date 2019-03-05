@@ -5,16 +5,6 @@ import sqlite3 as sq
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 
-#Used to create game statistics later
-
-#def construct_id(series):
-#    counter = 0
-#    tuple_list = []
-#    for item in series[0]:
-#        tuple_list = tuple_list+[item[counter], counter]
-#        counter = counter + 1
-#        return tuple_list
-
 #scrapes tables from basketball reference
 class SummaryScrape:
     def __init__(self, year):
@@ -48,7 +38,7 @@ class SummaryScrape:
         data = data.drop(["Pos", "Age", ], axis=1)
 
         #Create Player IDs
-        print(data.head(5))
+        return data
 
 class TeamScrape:
     def __init__(self, year):
@@ -100,36 +90,57 @@ class TeamScrape:
             #Reset URL
             url_foo =self.url
 
+        #Birthday to Datetime
+        p_table["Birth Date"] = pd.to_datetime(p_table["Birth Date"])
+
+        #rename headers
+        p_table.rename(columns={'\xa0':"Country"}, inplace=True)
+
+        #creating numeric columns
+        pd.to_numeric([p_table["Exp"], p_table["Year"], p_table["Wt"]],
+        errors="coerce")
+
+        return p_table
+
     def get_offense(self):
-        print("test")
+
+        #create DataFrame
+        o_table = pd.DataFrame()
+
+        #Scrape Data
+        url_foo = self.url.replace("yr", str(self.year))
+        url_foo = url_foo.replace("TM", "CHI")
+
+        #create the sauce
+        sauce = requests.get(url_foo).text
+        soup = BeautifulSoup(sauce,"lxml")
+
+        table = soup.find_all("div")
+        table = [item.find_all("th").text for item in table]
+        print(table)
 
     def get_defense(self):
         print(" worked")
+
 #Test Code
-TeamScrape(2019).get_offense()
-TeamScrape(2019).get_defense()
 
 
 
-
+#<table class="suppress_all stats_table sliding_cols" id="team_and_opponent" data-cols-to-freeze="1"><caption>Team and Opponent Stats Table</caption>
 
 #===============================================================================
 ##Make Empty DataFrame
-#data = pd.DataFrame()
+data = pd.DataFrame()
+p_table = pd.DataFrame()
 
 ##Loop through the league since the Current League Construction
 #for x in range (2010, 2019):
-#    data = data.append(year_df(x).make_data())
+data = data.append(SummaryScrape(2019).make_data())
+p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
-#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba_package\nba.db")
-#data.to_sql("Player Totals", con = engine, if_exists= "replace", chunksize = 10)
+engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba_package\nba.db")
+data.to_sql("Summary Stats", con = engine, if_exists= "replace", chunksize = 10)
+p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
 
 #===============================================================================
-##Check database/query
-#connection = sq.connect("nba.db")
-#c = connection.cursor()
-#c.execute("SELECT * FROM 'Player Totals' WHERE Player == 'LeBron James'")
-
-#print(c.fetchall())
-#connection.close()
