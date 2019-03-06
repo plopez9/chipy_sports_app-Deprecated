@@ -6,29 +6,10 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
-class PlayerInfo(models.Model):
-#    index = models.BigIntegerField(blank=True, null=True)
-    player = models.TextField(db_column='Player', blank=True, null=True)
-    pos = models.TextField(db_column='Pos', blank=True, null=True)
-    ht = models.TextField(db_column='Ht', blank=True, null=True)
-    wt = models.BigIntegerField(db_column='Wt', blank=True, null=True)
-    birth_date = models.DateTimeField(db_column='Birth Date',
-    blank=True, null=True)
-    country = models.TextField(db_column='Country', blank=True, null=True)
-    exp = models.TextField(db_column='Exp', blank=True, null=True)
-    college = models.TextField(db_column='College', blank=True, null=True)
-    url = models.TextField(db_column='URL', blank=True, null=True)
-    year = models.BigIntegerField(db_column='Year', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Player Info'
-
-
 class SummaryStats(models.Model):
 #    index = models.BigIntegerField(blank=True, null=True)
-    player = models.TextField(db_column='Player', blank=True, null=True)
+    player = models.TextField(db_column='Player', blank=True, null=False,
+    primary_key=True,)
     tm = models.TextField(db_column='Tm', blank=True, null=True)
     g = models.BigIntegerField(db_column='G', blank=True, null=True)
     gs = models.BigIntegerField(db_column='GS', blank=True, null=True)
@@ -39,12 +20,12 @@ class SummaryStats(models.Model):
     decimal_places= 3, max_digits=4,)
     number_3p = models.BigIntegerField(db_column='3P', blank=True, null=True)
     number_3pa = models.BigIntegerField(db_column='3PA', blank=True, null=True)
-    number_3p_field = models.DecimalField(db_column='3P%', blank=True, null=True,
-    decimal_places= 3, max_digits=4,)
+    number_3p_field = models.DecimalField(db_column='3P%', blank=True,
+    null=True, decimal_places= 3, max_digits=4,)
     number_2p = models.BigIntegerField(db_column='2P', blank=True, null=True)
     number_2pa = models.BigIntegerField(db_column='2PA', blank=True, null=True)
-    number_2p_field = models.DecimalField(db_column='2P%', blank=True, null=True,
-    decimal_places=3, max_digits=4,)
+    number_2p_field = models.DecimalField(db_column='2P%', blank=True,
+    null=True, decimal_places=3, max_digits=4,)
     efg_field = models.DecimalField(db_column='eFG%', blank=True, null=True,
     decimal_places=3, max_digits=4,)
     ft = models.BigIntegerField(db_column='FT', blank=True, null=True)
@@ -65,3 +46,22 @@ class SummaryStats(models.Model):
     class Meta:
         managed = False
         db_table = 'Summary Stats'
+
+class PlayerInfo(models.Model):
+#    index = models.BigIntegerField(blank=True, null=True)
+    player = models.ForeignKey(SummaryStats, on_delete= models.CASCADE,
+    db_column='Player', blank=True, null=True,)
+    pos = models.TextField(db_column='Pos', blank=True, null=True)
+    ht = models.TextField(db_column='Ht', blank=True, null=True)
+    wt = models.BigIntegerField(db_column='Wt', blank=True, null=True)
+    birth_date = models.DateTimeField(db_column='Birth Date',
+    blank=True, null=True)
+    country = models.TextField(db_column='Country', blank=True, null=True)
+    exp = models.TextField(db_column='Exp', blank=True, null=True)
+    college = models.TextField(db_column='College', blank=True, null=True)
+    url = models.TextField(db_column='URL', blank=True, null=True)
+    year = models.BigIntegerField(db_column='Year', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Player Info'
