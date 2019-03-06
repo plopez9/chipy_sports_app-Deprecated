@@ -49,8 +49,8 @@ class SummaryStats(models.Model):
 
 class PlayerInfo(models.Model):
 #    index = models.BigIntegerField(blank=True, null=True)
-    player = models.ForeignKey(SummaryStats, on_delete= models.CASCADE,
-    db_column='Player', blank=True, null=True,)
+    player = models.TextField(primary_key=True,
+    db_column='Player', blank=True, null=False,)
     pos = models.TextField(db_column='Pos', blank=True, null=True)
     ht = models.TextField(db_column='Ht', blank=True, null=True)
     wt = models.BigIntegerField(db_column='Wt', blank=True, null=True)

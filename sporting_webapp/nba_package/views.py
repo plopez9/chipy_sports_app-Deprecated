@@ -12,6 +12,9 @@ def index(request):
     return render(request, "nba_package/first_screen.html")
 
 def summary_request(request):
-    query = st.query(player = "Jimmy Butler").all
-    response = serialize("json", query)
+    response = serialize("json", st.objects.all())
+    return HttpResponse(response, content_type="application/json")
+
+def player_request(request):
+    response= serialize("json", pi.objects.all())
     return HttpResponse(response, content_type="application/json")
