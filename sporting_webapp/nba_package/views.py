@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 from .models import SummaryStats as st
 from .models import PlayerInfo as pi
+from .models import Contracts as c
 
 from django.core.serializers import serialize
 
@@ -17,4 +18,8 @@ def summary_request(request):
 
 def player_request(request):
     response= serialize("json", pi.objects.all())
+    return HttpResponse(response, content_type="application/json")
+
+def contract_request(request):
+    response = serialize("json", c.objects.all())
     return HttpResponse(response, content_type="application/json")

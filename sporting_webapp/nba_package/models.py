@@ -65,3 +65,21 @@ class PlayerInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'Player Info'
+
+class Contracts(models.Model):
+#    index = models.BigIntegerField(blank=True, null=True)
+    player = models.TextField(primary_key=True,
+    db_column='Player', blank=True, null=False)
+    tm = models.TextField(db_column='Tm', blank=True, null=True)
+    number_2018_19 = models.TextField(db_column='2018-19', blank=True, null=True)
+    number_2019_20 = models.TextField(db_column='2019-20', blank=True, null=True)
+    number_2020_21 = models.TextField(db_column='2020-21', blank=True, null=True)
+    number_2021_22 = models.TextField(db_column='2021-22', blank=True, null=True)
+    number_2022_23 = models.TextField(db_column='2022-23', blank=True, null=True)
+    number_2023_24 = models.TextField(db_column='2023-24', blank=True, null=True)
+    signed_using = models.TextField(db_column='Signed Using', blank=True, null=True)
+    guaranteed = models.TextField(db_column='Guaranteed', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Contracts'
