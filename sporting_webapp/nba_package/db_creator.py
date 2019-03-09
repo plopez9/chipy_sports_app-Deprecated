@@ -5,7 +5,7 @@ import sqlite3 as sq
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 
-#scrapes tables from basketball reference
+#scrapes Summary tables from basketball reference
 class SummaryScrape:
     def __init__(self, year):
         self.year = year
@@ -40,7 +40,8 @@ class SummaryScrape:
         #Create Player IDs
         return data
 
-class TeamScrape:
+#Iterates and Scrapes from Team Pages
+class PlayerScrape:
     def __init__(self, year):
         self.year = year
         self.teams = ['OKC', 'PHO', 'ATL', 'MIA', 'CLE',
@@ -102,45 +103,65 @@ class TeamScrape:
 
         return p_table
 
-    def get_offense(self):
+#Scrapes from team summarys
+class TeamScrape:
+    #Create Soup for all functions
+    def __init__(self, year):
+        self.year = year
+        self.url = requests.get(
+        "https://www.basketball-reference.com/leagues/NBA_2019.html").text
+        self.soup = BeautifulSoup(self.url, "lxml")
 
-        #create DataFrame
-        o_table = pd.DataFrame()
+    #Gather team statistics
+    def team_stats(self):
+        db_data =pd.read_html("https://www.basketball-reference.com/leagues/NBA_2019.html")
+        print(db_data)
 
-        #Scrape Data
-        url_foo = self.url.replace("yr", str(self.year))
-        url_foo = url_foo.replace("TM", "CHI")
+    #gather opponent statistics
+    def opp_stats(self):
+        return opp_df
 
-        #create the sauce
-        sauce = requests.get(url_foo).text
-        soup = BeautifulSoup(sauce,"lxml")
+#scrapes from salaries Page
+def get_contracts():
+    #create soup
+    url = "https://www.basketball-reference.com/contracts/players.html"
+    soup = BeautifulSoup(requests.get(url).text, "lxml")
 
-        table = soup.find_all("div")
-        table = [item.find_all("th").text for item in table]
-        print(table)
+    #get headers
+    headers = [[item.text for item in tr.find_all("th")]
+    for tr in soup.find_all("tr")][1][1:]
 
-    def get_defense(self):
-        print(" worked")
+    #get columns
+    columns = [[td.text.replace(",", "").replace("$","") for td in item.find_all("td")]
+    for item in soup.find_all("tr")][2:]
+
+    #create DataFrame
+    contract_data = pd.DataFrame(columns, columns=headers)
+
+    return contract_data
+#    print(contract_data.head())
+#    print(contract_data.tail())
 
 #Test Code
-
+#print(get_contracts())
 
 
 #<table class="suppress_all stats_table sliding_cols" id="team_and_opponent" data-cols-to-freeze="1"><caption>Team and Opponent Stats Table</caption>
 
 #===============================================================================
 ##Make Empty DataFrame
-data = pd.DataFrame()
-p_table = pd.DataFrame()
+#data = pd.DataFrame()
+#p_table = pd.DataFrame()
+contract_data = get_contracts()
 
 ##Loop through the league since the Current League Construction
 #for x in range (2010, 2019):
-data = data.append(SummaryScrape(2019).make_data())
-p_table = p_table.append(TeamScrape(2019).get_players())
+#data = data.append(SummaryScrape(2019).make_data())
+#p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
 engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba_package\nba.db")
-data.to_sql("Summary Stats", con = engine, if_exists= "replace", chunksize = 10)
-p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
+contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
+#p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
 
 #===============================================================================

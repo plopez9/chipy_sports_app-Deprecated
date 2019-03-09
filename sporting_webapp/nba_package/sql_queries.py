@@ -9,4 +9,5 @@ engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_
 c = engine.connect()
 print(c.execute("SELECT * FROM 'Player Info' WHERE Player == 'Jimmy Butler'").fetchall())
 print(c.execute("SELECT * FROM 'Summary Stats' WHERE Player == 'Jimmy Butler'").fetchall())
+print(c.execute("SELECT * FROM 'Contracts' WHERE Player == 'Jimmy Butler'").fetchall())
 c.close()
