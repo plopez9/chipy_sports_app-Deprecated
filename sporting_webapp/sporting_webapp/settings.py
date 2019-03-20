@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "webapp.apps.WebappConfig",
+    "rest_framework",
     "nba_package.apps.NbaPackageConfig",
     "nfl_package.apps.NflPackageConfig",
     "mlb_package.apps.MlbPackageConfig",
@@ -81,7 +81,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'nba.db'),
-    }
+    },
+
+#    "NBA": {
+#    "ENGINE": "django.db.backends.sqlite3",
+#    "NAME":os.path.join(BASE_DIR, "nba.db"),
+#    },
 }
 
 
@@ -102,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

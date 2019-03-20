@@ -135,8 +135,14 @@ def get_contracts():
     columns = [[td.text.replace(",", "").replace("$","") for td in item.find_all("td")]
     for item in soup.find_all("tr")][2:]
 
+    if columns == "":
+        return columns == "0"
+
     #create DataFrame
     contract_data = pd.DataFrame(columns, columns=headers)
+
+    #turn numeric columns to float
+
 
     return contract_data
 #    print(contract_data.head())
@@ -153,6 +159,8 @@ def get_contracts():
 #data = pd.DataFrame()
 #p_table = pd.DataFrame()
 contract_data = get_contracts()
+print(contract_data.loc[contract_data["Player"]== "Stephen Curry"].values)
+
 
 ##Loop through the league since the Current League Construction
 #for x in range (2010, 2019):
@@ -160,8 +168,8 @@ contract_data = get_contracts()
 #p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
-engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba_package\nba.db")
-contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
+#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
+#contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
 #p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
 
 #===============================================================================

@@ -71,22 +71,22 @@ class Contracts(models.Model):
     player = models.TextField(primary_key=True,
     db_column='Player', blank=True, null=False)
     tm = models.TextField(db_column='Tm', blank=True, null=True)
-    number_2018_19 = models.BigIntegerField(db_column='2018-19',
+    number_2018_19 = models.TextField(db_column='2018-19',
      blank=True, null=True)
-    number_2019_20 = models.BigIntegerField(db_column='2019-20',
+    number_2019_20 = models.TextField(db_column='2019-20',
      blank=True, null=True)
-    number_2020_21 = models.BigIntegerField(db_column='2020-21',
+    number_2020_21 = models.TextField(db_column='2020-21',
      blank=True, null=True)
-    number_2021_22 = models.BigIntegerField(db_column='2021-22',
+    number_2021_22 = models.TextField(db_column='2021-22',
      blank=True, null=True)
-    number_2022_23 = models.BigIntegerField(db_column='2022-23',
+    number_2022_23 = models.TextField(db_column='2022-23',
     blank=True, null=True)
-    number_2023_24 = models.BigIntegerField(db_column='2023-24',
+    number_2023_24 = models.TextField(db_column='2023-24',
     blank=True, null=True)
     signed_using = models.TextField(db_column='Signed Using',
     blank=True, null=True)
-    guaranteed = models.BigIntegerField(db_column='Guaranteed',
-    blank=True, null=True)
+    guaranteed = models.TextField(db_column='Guaranteed',
+    blank=True, null=True,)
 
     class Meta:
         managed = False
