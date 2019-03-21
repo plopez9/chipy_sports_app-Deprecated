@@ -142,6 +142,9 @@ def get_contracts():
     contract_data = pd.DataFrame(columns, columns=headers)
 
     #turn numeric columns to float
+    labels = ["2018-19", "2019-20", "2020-21", "2021-22",
+    "2022-23","2023-24"]
+    contract_data[labels] = contract_data[labels].replace("", 0).fillna(0)
 
 
     return contract_data
@@ -156,10 +159,11 @@ def get_contracts():
 
 #===============================================================================
 ##Make Empty DataFrame
-#data = pd.DataFrame()
-#p_table = pd.DataFrame()
+summary_tabel = SummaryScrape(2019).make_data()
+p_table = PlayerScrape(2019).get_players()
 contract_data = get_contracts()
-print(contract_data.loc[contract_data["Player"]== "Stephen Curry"].values)
+#print(contract_data.head(20))
+#print(contract_data.loc[contract_data["Player"]== "Stephen Curry"].values)
 
 
 ##Loop through the league since the Current League Construction
@@ -168,8 +172,9 @@ print(contract_data.loc[contract_data["Player"]== "Stephen Curry"].values)
 #p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
-#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
-#contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
-#p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
+engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
+contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
+p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
+summary_tabel.to_sql("Summary Stats", con= engine, if_exists="replace", chunksize=10)
 
 #===============================================================================
