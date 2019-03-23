@@ -1,33 +1,27 @@
 import React, { Component } from "react";
-import Lists from "./components/Lists";
+import Plot from "react-plotly.js";
 
 import "./App.css";
+import  FirstPlot from "./components/Scatter";
+
 
 class App extends Component {
-  state={
-    lists: [
-      {
-        id: 1,
-        title: "Player Profiles"
-      },
-      {
-        id: 2,
-        title: "Contracts"
-      },
-      {
-        id: 3,
-        title: "Summary Stats"
-      }
-    ]
+  constructor(){
+    super();
+    this.state={
+      
+    }
   }
   render(){
-    console.log(this.state.lists)
-    return (
+    return(
       <div className="App">
-        < Lists lists={this.state.lists} />
+        <div className="App-header">
+          <h2> This is My First Graph </h2>
+        </div>
+        <FirstPlot />
       </div>
     );
   }
 }
 
-export default App;
+export default App

@@ -31,6 +31,7 @@ class PlayerView(viewsets.ModelViewSet):
     queryset = pi.objects.all()
     serializer_class = PlayerSerializer
 
+
 class ContractView(viewsets.ModelViewSet):
     queryset = c.objects.all()
     serializer_class = ContractSerializer

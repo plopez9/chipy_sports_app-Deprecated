@@ -57,7 +57,7 @@ class PlayerInfo(models.Model):
     birth_date = models.DateTimeField(db_column='Birth Date',
     blank=True, null=True)
     country = models.TextField(db_column='Country', blank=True, null=True)
-    exp = models.TextField(db_column='Exp', blank=True, null=True)
+    exp = models.BigIntegerField(db_column='Exp', blank=True, null=True)
     college = models.TextField(db_column='College', blank=True, null=True)
     url = models.TextField(db_column='URL', blank=True, null=True)
     year = models.BigIntegerField(db_column='Year', blank=True, null=True)

@@ -5,6 +5,10 @@ import sqlite3 as sq
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 
+#Height converter
+def convert_height(array):
+    
+
 #scrapes Summary tables from basketball reference
 class SummaryScrape:
     def __init__(self, year):
@@ -97,29 +101,15 @@ class PlayerScrape:
         #rename headers
         p_table.rename(columns={'\xa0':"Country"}, inplace=True)
 
+        #Remove rookie experience
+        p_table["Exp"] = p_table["Exp"].replace("R", 0)
+
         #creating numeric columns
         pd.to_numeric([p_table["Exp"], p_table["Year"], p_table["Wt"]],
         errors="coerce")
 
         return p_table
 
-#Scrapes from team summarys
-class TeamScrape:
-    #Create Soup for all functions
-    def __init__(self, year):
-        self.year = year
-        self.url = requests.get(
-        "https://www.basketball-reference.com/leagues/NBA_2019.html").text
-        self.soup = BeautifulSoup(self.url, "lxml")
-
-    #Gather team statistics
-    def team_stats(self):
-        db_data =pd.read_html("https://www.basketball-reference.com/leagues/NBA_2019.html")
-        print(db_data)
-
-    #gather opponent statistics
-    def opp_stats(self):
-        return opp_df
 
 #scrapes from salaries Page
 def get_contracts():
@@ -135,16 +125,14 @@ def get_contracts():
     columns = [[td.text.replace(",", "").replace("$","") for td in item.find_all("td")]
     for item in soup.find_all("tr")][2:]
 
-    if columns == "":
-        return columns == "0"
-
     #create DataFrame
     contract_data = pd.DataFrame(columns, columns=headers)
 
     #turn numeric columns to float
     labels = ["2018-19", "2019-20", "2020-21", "2021-22",
-    "2022-23","2023-24"]
+    "2022-23","2023-24", 'Guaranteed']
     contract_data[labels] = contract_data[labels].replace("", 0).fillna(0)
+
 
 
     return contract_data
@@ -159,9 +147,11 @@ def get_contracts():
 
 #===============================================================================
 ##Make Empty DataFrame
-summary_tabel = SummaryScrape(2019).make_data()
-p_table = PlayerScrape(2019).get_players()
-contract_data = get_contracts()
+#summary_tabel = SummaryScrape(2019).make_data()
+#p_table = PlayerScrape(2019).get_players()
+#contract_data = get_contracts()
+
+
 #print(contract_data.head(20))
 #print(contract_data.loc[contract_data["Player"]== "Stephen Curry"].values)
 
@@ -172,9 +162,9 @@ contract_data = get_contracts()
 #p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
-engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
-contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
-p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
-summary_tabel.to_sql("Summary Stats", con= engine, if_exists="replace", chunksize=10)
+#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
+#contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
+#p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
+#summary_tabel.to_sql("Summary Stats", con= engine, if_exists="replace", chunksize=10)
 
 #===============================================================================
