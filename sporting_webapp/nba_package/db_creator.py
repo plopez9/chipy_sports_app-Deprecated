@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 #Height converter
 def convert_height(array):
-    
+
 
 #scrapes Summary tables from basketball reference
 class SummaryScrape:

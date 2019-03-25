@@ -3,6 +3,23 @@ import Plot from "react-plotly.js"
 
 
 class FirstPlot extends Component{
+
+  constructor(){
+    super();
+    this.state={
+      x_series:[],
+      y_series:[],
+      pk:[],
+    };
+  }
+
+  componentDidMount(){
+    fetch("http://127.0.0.1:8000/nba_package/jsonSummary/?format=json")
+    .then(results => {
+      return results.json();
+    })
+  }
+
   render(){
     return(
       <Plot

@@ -6,12 +6,6 @@ import  FirstPlot from "./components/Scatter";
 
 
 class App extends Component {
-  constructor(){
-    super();
-    this.state={
-      
-    }
-  }
   render(){
     return(
       <div className="App">

@@ -31,11 +31,52 @@ class PlayerView(viewsets.ModelViewSet):
     queryset = pi.objects.all()
     serializer_class = PlayerSerializer
 
+    def get_queryset(self):
+        queryset = pi.objects.all()
+        player = self.request.query_params.get('player', None)
+        pos = self.request.query_params.get("pos")
+
+        if player is not None:
+            queryset = queryset.filter(player =player)
+
+        if pos is not None:
+            queryset = queryset.filter(pos = pos)
+
+        return queryset
+
 
 class ContractView(viewsets.ModelViewSet):
     queryset = c.objects.all()
     serializer_class = ContractSerializer
 
+    def get_queryset(self):
+        queryset = c.objects.all()
+        player = self.request.query_params.get("player", None)
+        team = self.request.query_params.get("tm", None)
+
+        if player is not None:
+            queryset = queryset.filter(player = player)
+
+        if team  is not None:
+            queryset = queryset.filter(tm = team)
+
+        return queryset
+
+
+
 class SummaryView(viewsets.ModelViewSet):
     queryset = st.objects.all()
     serializer_class = SummarySerializer
+
+    def get_queryset():
+        queryset = c.objects.all()
+        player = self.request.query_params.get("player", None)
+        team = self.request.query_params.get("tm", None)
+
+        if player is not None:
+            queryset = queryset.filter(player = player)
+
+        if team  is not None:
+            queryset = queryset.filter(tm = team)
+
+        return queryset
