@@ -33,6 +33,7 @@ class PlayerView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = pi.objects.all()
+
         player = self.request.query_params.get('player', None)
         pos = self.request.query_params.get("pos")
 
@@ -51,6 +52,7 @@ class ContractView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = c.objects.all()
+
         player = self.request.query_params.get("player", None)
         team = self.request.query_params.get("tm", None)
 
@@ -68,8 +70,9 @@ class SummaryView(viewsets.ModelViewSet):
     queryset = st.objects.all()
     serializer_class = SummarySerializer
 
-    def get_queryset():
-        queryset = c.objects.all()
+    def get_queryset(self):
+        queryset = st.objects.all()
+
         player = self.request.query_params.get("player", None)
         team = self.request.query_params.get("tm", None)
 

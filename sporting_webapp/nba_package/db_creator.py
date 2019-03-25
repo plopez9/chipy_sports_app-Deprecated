@@ -5,14 +5,11 @@ import sqlite3 as sq
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 
-#Height converter
-def convert_height(array):
-
-
 #scrapes Summary tables from basketball reference
 class SummaryScrape:
     def __init__(self, year):
         self.year = year
+
 
     def make_data(self):
         #Import soup from basketball reference url
@@ -147,7 +144,7 @@ def get_contracts():
 
 #===============================================================================
 ##Make Empty DataFrame
-#summary_tabel = SummaryScrape(2019).make_data()
+summary_tabel = SummaryScrape(2019).make_data()
 #p_table = PlayerScrape(2019).get_players()
 #contract_data = get_contracts()
 
@@ -162,9 +159,9 @@ def get_contracts():
 #p_table = p_table.append(TeamScrape(2019).get_players())
 
 ##Create Database
-#engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
+engine = create_engine(r"sqlite:///C:\Users\Pedro\Desktop\Programs\chipy_sports_app\sporting_webapp\nba.db")
 #contract_data.to_sql("Contracts", con = engine, if_exists= "replace", chunksize = 10)
 #p_table.to_sql("Player Info", con = engine, if_exists="replace", chunksize = 10)
-#summary_tabel.to_sql("Summary Stats", con= engine, if_exists="replace", chunksize=10)
+summary_tabel.to_sql("Summary Stats", con= engine, if_exists="replace", chunksize=10)
 
 #===============================================================================
