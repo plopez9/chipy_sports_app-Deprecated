@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import Plot from "react-plotly.js";
 
 import "./App.css";
-import  FirstPlot from "./components/Scatter";
 
 
 class App extends Component {
@@ -11,7 +11,6 @@ class App extends Component {
         <div className="App-header">
           <button size= "lg" block="True"> This is My First Graph </button>
         </div>
-        <FirstPlot />
       </div>
     );
   }

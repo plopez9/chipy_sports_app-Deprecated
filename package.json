@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "plotly.js": "^1.45.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
@@ -23,5 +24,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-loader": "^8.0.5",
+    "webpack-bundle-tracker": "^0.4.2-beta"
+  }
 }

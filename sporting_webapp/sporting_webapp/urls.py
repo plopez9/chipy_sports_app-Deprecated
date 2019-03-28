@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-#    path("", include("front_end.urls")),
+    path("", include("front_end.urls")),
     path("nba_package/", include("nba_package.urls")),
     path("nfl_package/", include("nfl_package.urls")),
     path("mlb_package/", include("mlb_package.urls")),
