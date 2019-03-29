@@ -39,7 +39,6 @@ WEBPACK_LOADER = {
 INSTALLED_APPS = [
     "webpack_loader",
     "rest_framework",
-    "front_end",
     "nba_package.apps.NbaPackageConfig",
     "nfl_package.apps.NflPackageConfig",
     "mlb_package.apps.MlbPackageConfig",
