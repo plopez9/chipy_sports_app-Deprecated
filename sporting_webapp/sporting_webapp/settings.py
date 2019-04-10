@@ -62,10 +62,19 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sporting_webapp.urls'
 
+PROJECT_HOME = os.path.join(os.path.dirname(__file__), '..')
+def template_dir(sub_dir):
+    return os.path.join(PROJECT_HOME, sub_dir)
+
+
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [
+            template_dir('mlb_package/templates'),
+            template_dir('nba_package/templates'),
+            template_dir('nfl_package/templates'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="../static/images/bball-icon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <title>
+    NBA App
+  </title>
+
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Files -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../static/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
+
+  <style>
+  body {
+    font-family: "Lato", sans-serif;
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  .panel {
+    background: #FDFEFE;
+    width: 50%;
+    text-align: center;
+    height: 110px;
+    transform: translate(46%, 30%);
+    border-style: ridge;
+    border-width: medium;
+  }
+
+  #main {
+    transition: margin-left .5s;
+    color: #D0D3D4;
+    padding: 16px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  </style>
+
+</head>
+
+<body style="background-image: url(../static/images/Hardwood.jpg); position: relative;">
+
+  <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="sidebar-wrapper" id="sidebar-wrapper">
+          <ul class="nav">
+            <li>
+              <a href="./dashboard.html">
+                <!-- <i class="now-ui-icons design_app"></i> -->
+                <p style="font-size: 18px;">Main Page</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="./dashboard.html">
+                <!-- <i class="now-ui-icons design_app"></i> -->
+                <p style="font-size: 18px;">NBA Dashboard</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="./NFLDashboard.html">
+                <!-- <i class="now-ui-icons design_app"></i> -->
+                <p style="font-size: 18px;">NFL Dashboard</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="./MLBDashboard.html">
+                <!-- <i class="now-ui-icons design_app"></i> -->
+                <p style="font-size: 18px;">MLB Dashboard</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+  </div>
+
+      <div id= "main">
+
+      <span style="font-size:30px;cursor:pointer; padding: 8px;
+      position: absolute; z-index:999;"
+      onclick="openNav()">&#9776; open</span>
+
+      <div class="panel-header panel-header-lg" style="z-index:99;">
+
+
+        <div  style="z-index:999; right:25px; position:absolute; top:20px;">
+          <ul class="nav">
+            <form>
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search Player">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="now-ui-icons location_world"> X </i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="now-ui-icons location_world"> Y </i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <canvas id="bigDashboardChart"></canvas>
+      </div>
+
+      <div class="row" style = "padding-top:20px;">
+      <div class="col-md-6">
+        <div class="card" style= "padding:5px; padding-left:5px; padding-right:5px;">
+          <div class="row" style="text-align: center;">
+            <div class="column">
+              <div class="card-header">
+                <img src="../static/images/default-avatar.png">
+              </div>
+            </div>
+            <div class="column" style="padding-left:20px;">
+              <div id="Player Info" style="transform:translate(10%, 0%)">
+                <div class="row"> <h2 style="margin-bottom:5px; color:#f96332;">
+                  Robo Kreps</h2></div>
+                <div id="Player Info Table" style="padding-left:2px;">
+                  <div class="row"> <a style="padding-top:7px; font-size:17px;
+                    color:#2C3E50;"> Position: PG</a> </div>
+                  <div class="row"> <a style="padding-top:7px; font-size:17px;
+                    color:#2C3E50;"> School: University of Illinois at Chicago</a> </div>
+                  <div class="row"> <a style="padding-top:7px; font-size:17px;
+                    color:#2C3E50;"> Age: 30</a> </div>
+                  <div class="row"> <a style="padding-top:7px; font-size:17px;
+                    color:#2C3E50;"> Ht: 6-1,  Wt: 200 lbs</a> </div>
+                  <div class="row"> <a style="padding-top:7px; font-size:17px;
+                    color:#2C3E50;"> Experience: Senior</a> </div>
+                </div>
+              </div>
+          </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <th> Year </th>
+                    <th> G </th>
+                    <th> GS </th>
+                    <th> MP </th>
+                    <th> Ft% </th>
+                    <th> 2P% </th>
+                    <th> 3P% </th>
+                    <th> Tov </th>
+                    <th> Blk </th>
+                    <th> Stl </th>
+                    <th> Reb </th>
+                    <th> Ast </th>
+                    <th> Pts </th>
+                  </thead>
+
+                  <tbody style="color:#2C3E50;">
+                    <tr>
+                      <td> 2019 </td>
+                      <td> 40 </td>
+                      <td> 45 </td>
+                      <td> 32.1 </td>
+                      <td> 0.789 </td>
+                      <td> 0.562 </td>
+                      <td> 0.327 </td>
+                      <td> 3.1 </td>
+                      <td> 0.9 </td>
+                      <td> 4.2 </td>
+                      <td> 2.2 </td>
+                      <td> 6.7 </td>
+                      <td> 14.1 </td>
+                    </tr>
+
+                    <tr>
+                      <td> 2018 </td>
+                      <td> 40 </td>
+                      <td> 45 </td>
+                      <td> 32.1 </td>
+                      <td> 0.789 </td>
+                      <td> 0.562 </td>
+                      <td> 0.327 </td>
+                      <td> 3.1 </td>
+                      <td> 0.9 </td>
+                      <td> 4.2 </td>
+                      <td> 2.2 </td>
+                      <td> 6.7 </td>
+                      <td> 14.1 </td>
+                    </tr>
+
+                    <tr>
+                      <td> 2017 </td>
+                      <td> 40 </td>
+                      <td> 45 </td>
+                      <td> 32.1 </td>
+                      <td> 0.789 </td>
+                      <td> 0.562 </td>
+                      <td> 0.327 </td>
+                      <td> 3.1 </td>
+                      <td> 0.9 </td>
+                      <td> 4.2 </td>
+                      <td> 2.2 </td>
+                      <td> 6.7 </td>
+                      <td> 14.1 </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contract Graph -->
+        <div class="col-md-6">
+          <div class="card  card-tasks">
+
+            <div class="card-header " style="color:#2C3E50;">
+              <h3 class="card-title">Contract Obligations</h3>
+            </div>
+
+            <div class="card-body ">
+            </div>
+
+            <div class="card-footer ">
+              This is a footer
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <footer class="footer">
+        <div class="container-fluid" style="color:#2C3E50;">
+          <nav>
+            <ul>
+              <li>
+                <a href="https://www.creative-tim.com">
+                  Creative Tim
+                </a>
+              </li>
+              <li>
+                <a href="http://presentation.creative-tim.com">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="http://blog.creative-tim.com">
+                  Blog
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright" id="copyright">
+            &copy;
+            <script>
+              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>, Designed by
+            <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by
+            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+          </div>
+        </div>
+      </footer>
+    </div>
+<!-- End of Main HTML Code ---------------------------------------------------->
+  <!--   Core JS Files   -->
+  <script src="../static/js/core/jquery.min.js"></script>
+  <script src="../static/js/core/popper.min.js"></script>
+  <script src="../static/js/core/bootstrap.min.js"></script>
+  <script src="../static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Chart JS -->
+  <script src="../static/js/plugins/chartjs.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../static/js/plugins/bootstrap-notify.js"></script>
+  <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+  <script src="../static/demo/demo.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../static/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      demo.initDashboardPageCharts();
+
+    });
+  </script>
+
+  <script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+  }
+  </script>
+</body>
+
+</html>

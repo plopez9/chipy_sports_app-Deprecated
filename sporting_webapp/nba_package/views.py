@@ -13,8 +13,11 @@ from django.core.serializers import serialize
 
 # Create your views here.
 def index(request):
-    return render(request, "nba_package/first_screen.html")
-    
+    context = {
+        'foo': 'Nick',
+    }
+    return render(request, "first_screen.html", context=context)
+
 #def summary_request(request):
 #    response = serialize("json", st.objects.all())
 #    return HttpResponse(response, content_type="application/json")
