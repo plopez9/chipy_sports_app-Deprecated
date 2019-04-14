@@ -18,6 +18,9 @@ def index(request):
     }
     return render(request, "first_screen.html", context=context)
 
+def home_screen(request):
+    return render(request, "index.html")
+
 #def summary_request(request):
 #    response = serialize("json", st.objects.all())
 #    return HttpResponse(response, content_type="application/json")
